@@ -76,6 +76,24 @@ C:\Users\USER\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\
 http://localhost:4173
 ```
 
+### OpenAI 기반 답변/검수 에이전트 사용
+
+기본 실행은 로컬 규칙 기반 파이프라인으로 동작합니다. 더 자연스럽고 상담원용에 가까운 답변 초안과 검수 결과를 사용하려면 서버 실행 전에 OpenAI API 키를 환경변수로 설정합니다.
+
+```powershell
+$env:OPENAI_API_KEY="sk-..."
+$env:OPENAI_MODEL="gpt-4.1-mini"
+C:\Users\USER\.cache\codex-runtimes\codex-primary-runtime\dependencies\node\bin\node.exe server.mjs
+```
+
+동작 방식:
+
+- `/api/analyze`가 먼저 PDF/웹 인덱스에서 근거를 검색합니다.
+- 검색된 근거만 LLM에 전달합니다.
+- LLM은 상담원용 답변 초안, 후속 질문, 주의사항, 검수 결과를 JSON으로 반환합니다.
+- API 키가 없거나 호출에 실패하면 기존 규칙 기반 답변으로 자동 전환됩니다.
+- 고위험 문의는 LLM 답변이 있어도 담당자 확인 필요로 표시합니다.
+
 ### PDF 인덱스 생성
 
 `data/raw_pdfs/`에 PDF를 넣은 뒤 아래 명령으로 페이지별 텍스트 인덱스를 생성합니다.

@@ -4,6 +4,7 @@ server.err.log
 node_modules/
 .env
 .env.*
+!.env.example
 data/processed/web_index.json
 __pycache__/
 *.pyc

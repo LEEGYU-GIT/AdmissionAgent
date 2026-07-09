@@ -518,12 +518,22 @@ async function renderAnalysis() {
       url: source.url,
       page_url: pageUrl(source)
     })),
-    search_query: serverAnalysis?.search_query || ""
+    search_query: serverAnalysis?.search_query || "",
+    agent_mode: serverAnalysis?.agent_mode || "client_fallback",
+    review: serverAnalysis?.review || null,
+    llm_error: serverAnalysis?.llm_error || ""
   };
 
   $("intentValue").textContent = intent;
   $("contextValue").textContent = `${year} ${recruitmentLabel(recruitment)}${transferType ? ` / ${transferType}` : ""}${track ? ` / ${track}` : ""}`;
-  $("statusValue").textContent = risk === "high" ? "담당자 확인 권장" : "상담원 확인 후 사용";
+  const requiresHumanReview = serverAnalysis?.review?.required_human_review || risk === "high";
+  if (serverAnalysis?.agent_mode === "rules_fallback_no_api_key") {
+    $("statusValue").textContent = "근거 기반 모드";
+  } else if (serverAnalysis?.agent_mode === "rules_fallback_llm_error") {
+    $("statusValue").textContent = "AI 오류, 근거 기반";
+  } else {
+    $("statusValue").textContent = requiresHumanReview ? "담당자 확인 권장" : "상담원 확인 후 사용";
+  }
 
   const riskBadge = $("riskBadge");
   riskBadge.className = `risk-badge ${risk}`;
