@@ -80,6 +80,15 @@ http://localhost:4173
 
 기본 실행은 로컬 규칙 기반 파이프라인으로 동작합니다. 더 자연스럽고 상담원용에 가까운 답변 초안과 검수 결과를 사용하려면 서버 실행 전에 OpenAI API 키를 환경변수로 설정합니다.
 
+방법 1: `.env` 파일 사용
+
+```text
+OPENAI_API_KEY=sk-...
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+방법 2: PowerShell 환경변수 사용
+
 ```powershell
 $env:OPENAI_API_KEY="sk-..."
 $env:OPENAI_MODEL="gpt-4.1-mini"
