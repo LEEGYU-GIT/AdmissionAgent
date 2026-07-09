@@ -1,0 +1,9 @@
+server.out.log
+server.err.log
+*.log
+node_modules/
+.env
+.env.*
+data/processed/web_index.json
+__pycache__/
+*.pyc
